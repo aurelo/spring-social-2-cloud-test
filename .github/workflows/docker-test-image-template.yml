@@ -70,11 +70,8 @@ jobs:
           DB_USER: ${{env.USER}}
           DB_PASS: ${{env.PASSWORD}}
         run: |
-          docker run --rm -d -p 8080:8080 ${{ env.TEST_TAG }} \
-                     --network ${{ job.container.network }} \
-                     -e DB_PASS=$DB_PASS \
-                     -e DB_URL=$DB_URL \
-                     -e DB_USER=$DB_USER 
+          docker run --rm -d -p 8080:8080 ${{ env.TEST_TAG }} --network ${{ job.container.network }} \
+            -e DB_PASS=$DB_PASS -e DB_URL=$DB_URL -e DB_USER=$DB_USER 
           for i in {1..10};
           do
             echo "curl app - try number $i"
