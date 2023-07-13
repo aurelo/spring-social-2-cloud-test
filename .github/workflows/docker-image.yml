@@ -23,5 +23,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+    secrets: inherit
     uses: ./.github/workflows/docker-test-image-template.yml
     needs: maven_package
+
