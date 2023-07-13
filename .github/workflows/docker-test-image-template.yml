@@ -8,7 +8,7 @@ on:
 env:
   TEST_TAG: ${{ github.repository }}:test
   
-permissions: write-all 
+#permissions: write-all 
 #  contents: read
 #  packages: write
 
