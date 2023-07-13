@@ -88,16 +88,13 @@ jobs:
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
-        env:
-          APP_VERSION: 1.0.1
-#          APP_VERSION: 1.0.1${{needs.test.outputs.version}}
         with:
           # list of Docker images to use as base name for tags
           images: |
             ghcr.io/${{ github.repository }} 
             ${{ github.repository }}
           tags: |
-            type=raw,value=$APP_VERSION
+            type=semver,pattern={{version}}
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
             
