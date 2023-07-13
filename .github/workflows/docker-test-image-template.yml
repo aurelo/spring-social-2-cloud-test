@@ -1,0 +1,93 @@
+name: Docker Build Test Image Template
+
+on:
+  workflow_call:
+  workflow_dispatch:
+    
+
+env:
+  TEST_TAG: ${{ github.repository }}:test
+  
+permissions: write-all 
+#  contents: read
+#  packages: write
+
+jobs:
+
+  build_test_docker_image:
+    runs-on: ubuntu-latest
+
+    env:
+      SCHEMA: ss2c
+      USER: user
+      PASSWORD: pass
+    
+    services:
+    # Label used to access the service container
+      db:
+        # Docker Hub image
+        image: postgres:13
+        # Provide the password for postgres
+        env:
+          POSTGRES_DB: ${{env.SCHEMA}}
+          POSTGRES_USER: ${{env.USER}}
+          POSTGRES_PASSWORD: ${{env.PASSWORD}}
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432   
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+    
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Build Test Image and export to GitHub Docker Package Registry
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+      
+      - name: Test Docker Image Locally
+        env:
+          DB_URL: jdbc:postgresql://db:5432/${{env.SCHEMA}}
+          DB_USER: ${{env.USER}}
+          DB_PASS: ${{env.PASSWORD}}
+        run: |
+          echo "DB_URL is $DB_URL"
+          echo "DB_USER is $DB_USER"
+          echo "DB_PASS is $DB_PASS"
+          docker ps
+          docker run --rm --name testcontainer -d -p 8080:8080 --network ${{ job.container.network }} -e DB_PASS=$DB_PASS -e DB_URL=$DB_URL -e DB_USER=$DB_USER ${{ env.TEST_TAG }}
+          for i in {1..15};
+          do
+            echo "curl app - try number $i"
+            curl --fail --silent http://localhost:8080/management/health | grep UP && exit 0
+            sleep 3
+          done
+          exit 1
+          
+        
+#          docker run --rm --name testcontainer -d -p 8080:8080 --network ${{ job.container.network }} -e DB_PASS=$DB_PASS -e DB_URL=$DB_URL -e DB_USER=$DB_USER ${{ env.TEST_TAG }}        
+#          until [ "`docker inspect -f {{.State.Health.Status}} testcontainer`"=="healthy" ]; do
+#            sleep 0.1;
+#          done;
