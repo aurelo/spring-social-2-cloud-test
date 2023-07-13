@@ -2,6 +2,10 @@ name: Docker Image CI
 
 on:
   workflow_dispatch:
+  release: 
+    types: [created]
+    branches: [main, master]
+    tags: v**
     
 
 jobs:
