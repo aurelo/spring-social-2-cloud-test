@@ -86,6 +86,9 @@ jobs:
           done
           exit 1
           
+      - name: Prune
+        run: docker system prune -f
+          
         
 #          docker run --rm --name testcontainer -d -p 8080:8080 --network ${{ job.container.network }} -e DB_PASS=$DB_PASS -e DB_URL=$DB_URL -e DB_USER=$DB_USER ${{ env.TEST_TAG }}        
 #          until [ "`docker inspect -f {{.State.Health.Status}} testcontainer`"=="healthy" ]; do
