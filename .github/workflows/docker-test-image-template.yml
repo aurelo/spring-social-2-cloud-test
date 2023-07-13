@@ -80,8 +80,10 @@ jobs:
           done
           exit 1
           
-      - name: Prune
-        run: docker system prune -f
+      - name: Docker Image Prune
+        run: |
+          docker ps -a
+          docker system prune -f
         
       - name: Docker meta
         id: meta
