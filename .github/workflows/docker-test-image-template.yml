@@ -3,10 +3,7 @@ name: Docker Build Test Image Template
 on:
   workflow_call:
   workflow_dispatch:
-  release: 
-    types: [created]
-    branches: [main, master]
-    tags: v**
+
 
 env:
   TEST_TAG: ${{ github.repository }}:test
