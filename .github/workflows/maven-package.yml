@@ -16,3 +16,7 @@ jobs:
     needs: maven_package
     steps:
       - run: echo ${{ needs.maven_package.outputs.app_version }}
+      
+  sonar:
+    uses: ./.github/workflows/sonarcloud.yml
+    needs: maven_package
