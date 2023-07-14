@@ -1,7 +1,8 @@
 name: Java Maven Package
 
 on:
-  workflow_dispatch:
+  push:
+  pull_request:
 
 jobs:
   maven_package:
