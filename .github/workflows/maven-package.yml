@@ -2,9 +2,8 @@ name: Java Maven Package
 
 on:
   push:
-    tags-ignore:
-      - v**
-      - ?*.*.*
+#    tags-ignore:
+#      - v**
   pull_request:
     types: [opened, reopened]
 
