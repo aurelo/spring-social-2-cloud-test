@@ -19,4 +19,7 @@ jobs:
       
   sonar:
     uses: ./.github/workflows/sonarcloud.yml
+    permissions:
+      pull-requests: read
+    secrets: inherit
     needs: maven_package
