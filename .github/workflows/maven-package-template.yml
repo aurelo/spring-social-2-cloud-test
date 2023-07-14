@@ -17,8 +17,9 @@ jobs:
       matrix:
         jdk_version:
           - 17
+          - 18
+          - 19
           - 20
-          - 21
     steps:
       - name: Checkout
         uses: actions/checkout@v3
