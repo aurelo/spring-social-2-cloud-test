@@ -5,16 +5,6 @@ services:
     plan: free
     healthCheckPath: /
     envVars:
-      - key: REDIS_HOST
-        fromService:
-          type: redis
-          name: redis-cache
-          property: host
-      - key: REDIS_PORT
-        fromService:
-          type: redis
-          name: redis-cache
-          property: port
       - key: SPRING_DATASOURCE_CONNECTION_STRING
         fromDatabase:
           name: elephant
