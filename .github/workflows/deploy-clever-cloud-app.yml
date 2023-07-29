@@ -15,5 +15,5 @@ jobs:
           curl -O https://clever-tools.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz
           tar xvzf clever-tools-latest_linux.tar.gz
           ./clever-tools-latest_linux/clever login --token ${{secrets.CLEVER_TOKEN}} --secret ${{secrets.CLEVER_SECRET}}
-          ./clever-tools-latest_linux/clever link ${{secrets.APP_ID}}
+          ./clever-tools-latest_linux/clever link ${{secrets.CLEVER_CLOUD_APP_ID}}
           ./clever-tools-latest_linux/clever deploy -a ${{vars.APP_NAME}}
