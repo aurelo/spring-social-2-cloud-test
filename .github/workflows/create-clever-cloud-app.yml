@@ -1,9 +1,16 @@
-name: Creates clever cloud app with database
+name: Creates clever cloud (www.clever-cloud.com) app with database
+
+
+env:
+  APP_NAME: ${{vars.APP_NAME}}
 
 on: 
   workflow_dispatch:
     inputs:
-      app_name:
+      app_name: 
+        description: Application name
+        required: true
+        default: $APP_NAME
       db_name:
         description: Database name
         required: true
@@ -24,3 +31,4 @@ jobs:
           ./clever-tools-latest_linux/clever create --type docker ${{vars.APP_NAME}}
           ./clever-tools-latest_linux/clever addon create postgresql-addon ${{github.event.inputs.db_name}} --link ${{vars.APP_NAME}}
           ./clever-tools-latest_linux/clever env set SPRING_PROFILES_ACTIVE "clever_cloud"
+          ./clever-tools-latest_linux/clever env set ADMIN_PASS ${{secrets.ADMIN_PASS}}
