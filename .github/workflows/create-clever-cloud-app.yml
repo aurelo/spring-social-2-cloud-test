@@ -15,6 +15,9 @@ on:
         description: Database name
         required: true
         default: db
+      admin_pass:
+        description: Password for admin user
+        required: true
         
 jobs:
 
@@ -31,4 +34,4 @@ jobs:
           ./clever-tools-latest_linux/clever create --type docker ${{vars.APP_NAME}}
           ./clever-tools-latest_linux/clever addon create postgresql-addon ${{github.event.inputs.db_name}} --link ${{vars.APP_NAME}}
           ./clever-tools-latest_linux/clever env set SPRING_PROFILES_ACTIVE "clever_cloud"
-          ./clever-tools-latest_linux/clever env set ADMIN_PASS ${{secrets.ADMIN_PASS}}
+          ./clever-tools-latest_linux/clever env set ADMIN_PASS ${{github.event.inputs.admin_pass}}
