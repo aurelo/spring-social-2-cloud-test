@@ -31,7 +31,7 @@ jobs:
           tar xvzf clever-tools-latest_linux.tar.gz
           ./clever-tools-latest_linux/clever login --token ${{secrets.CLEVER_TOKEN}} --secret ${{secrets.CLEVER_SECRET}}
           if [ ${{inputs.app_type}} = 'maven' ]; then
-          	./clever-tools-latest_linux/cleverclever env set CC_JAVA_VERSION "17"
+          	./clever-tools-latest_linux/clever env set CC_JAVA_VERSION "17"
           fi
           ./clever-tools-latest_linux/clever create --type ${{inputs.app_type}} ${{vars.APP_NAME}}
           ./clever-tools-latest_linux/clever addon create postgresql-addon ${{inputs.db_name}} --link ${{vars.APP_NAME}}
