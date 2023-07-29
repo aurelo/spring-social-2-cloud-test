@@ -4,6 +4,6 @@
     "goal": "package -DskipTests"
   },
   "deploy": {
-    "jarName": "./target/clever-cloud-app-db-example##*.jar"
+    "jarName": "./target/*.jar"
   }
 }
