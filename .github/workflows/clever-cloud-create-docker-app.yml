@@ -14,7 +14,7 @@ on:
       db_name:
         description: Database name
         required: true
-        default: db
+        default: ${{vars.APP_NAME}}_db
       admin_pass:
         description: Password for admin user
         required: true
