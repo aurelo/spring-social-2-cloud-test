@@ -1,4 +1,6 @@
 name: Creates clever cloud (www.clever-cloud.com) app with database
+run-name: Create Clever Cloud app ${{vars.APP_NAME}} (type ${{inputs.app_type}}) by @${{ github.actor }}
+
 
 on: 
   workflow_dispatch:
